@@ -103,6 +103,16 @@ describe('local core lib', () => {
       expect(result).to.deep.equal({ freetext: '12345' });
     });
 
+        it('should normalize Arabic-Indic numerals (U+0660-U+0669) to Latin digits', () => {
+      const result = normalizeFreetextQualifier({ freetext: '\u0661\u0662\u0663\u0664\u0665' });
+      expect(result).to.deep.equal({ freetext: '12345' });
+    });
+
+    it('should normalize Extended Arabic-Indic numerals (U+06F0-U+06F9) to Latin digits', () => {
+      const result = normalizeFreetextQualifier({ freetext: '\u06F1\u06F2\u06F3\u06F4\u06F5' });
+      expect(result).to.deep.equal({ freetext: '12345' });
+    });
+
     it('should normalize Devanagari numerals in a text context', () => {
       const result = normalizeFreetextQualifier({ freetext: 'person १२३४५' });
       expect(result).to.deep.equal({ freetext: 'person 12345' });

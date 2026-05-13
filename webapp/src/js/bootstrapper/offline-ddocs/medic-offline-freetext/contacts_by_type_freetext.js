@@ -2,8 +2,12 @@ module.exports.map = (doc) => {
   const skip = [ '_id', '_rev', 'type', 'refid', 'geolocation' ];
 
   const normalizeNumerals = (str) =>
-    str.replace(/[०-९]/g, (d) =>
-      String.fromCodePoint(d.codePointAt(0) - 0x0966 + 0x0030));
+    str.replace(/[०-९٠-٩۰-۹]/g, (d) => {
+      const cc = d.codePointAt(0);
+      if (cc >= 0x0966 && cc <= 0x096F) return String.fromCodePoint(cc - 0x0966 + 0x0030);
+      if (cc >= 0x06F0 && cc <= 0x06F9) return String.fromCodePoint(cc - 0x06F0 + 0x0030);
+      return String.fromCodePoint(cc - 0x0660 + 0x0030);
+    });
   const keyShouldBeSkipped = key => skip.indexOf(key) !== -1 || /_date$/.test(key);
 
   const usedKeys = [];

@@ -12,7 +12,7 @@ export const validateCursor = (cursor: Nullable<string>): number => {
 };
 
 /** @internal */
-const normalizeDevanagariNumerals = (str) => str.replace(/[०-९]/g, (d) => String.fromCodePoint((d.codePointAt(0) ?? 0) - 0x0966 + 0x0030));
+const normalizeDevanagariNumerals = (str) => str.replace(/[\०-\९\٠-\٩\۰-\۹]/g, (d) => { const cc = d.codePointAt(0) ?? 0; if (cc >= 0x0966 && cc <= 0x096F) return String.fromCodePoint(cc - 0x0966 + 0x0030); if (cc >= 0x06F0 && cc <= 0x06F9) return String.fromCodePoint(cc - 0x06F0 + 0x0030); return String.fromCodePoint(cc - 0x0660 + 0x0030); });
 
 /** @internal */
 export const normalizeFreetextQualifier = <T extends FreetextQualifier> (qualifier: T): T => {

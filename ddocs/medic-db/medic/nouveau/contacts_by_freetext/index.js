@@ -2,8 +2,11 @@ function (doc) {
   var skip = ['_id', '_rev', 'type', 'refid', 'geolocation'];
 
   var normalizeNumerals = function(str) {
-    return str.replace(/[०-९]/g, function(d) {
-      return String.fromCharCode(d.charCodeAt(0) - 0x0966 + 0x0030);
+    return str.replace(/[०-९٠-٩۰-۹]/g, function(d) {
+      var cc = d.charCodeAt(0);
+      if (cc >= 0x0966 && cc <= 0x096F) return String.fromCharCode(cc - 0x0966 + 0x0030);
+      if (cc >= 0x06F0 && cc <= 0x06F9) return String.fromCharCode(cc - 0x06F0 + 0x0030);
+      return String.fromCharCode(cc - 0x0660 + 0x0030);
     });
   };
 

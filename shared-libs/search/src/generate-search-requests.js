@@ -81,7 +81,7 @@ const placeRequest = (filters) => {
   return getRequestForMultidropdown('medic-client/reports_by_place', filters.facilities, getKeysArray);
 };
 
-const normalizeNumerals = (text) => text.replace(/[०-९]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0966 + 0x0030));
+const normalizeNumerals = (text) => text.replace(/[\०-\९\٠-\٩\۰-\۹]/g, (d) => { const cc = d.charCodeAt(0); if (cc >= 0x0966 && cc <= 0x096F) return String.fromCharCode(cc - 0x0966 + 0x0030); if (cc >= 0x06F0 && cc <= 0x06F9) return String.fromCharCode(cc - 0x06F0 + 0x0030); return String.fromCharCode(cc - 0x0660 + 0x0030); });
 
 const freetextRequestParams = (word) => {
   const params = {};
